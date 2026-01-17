@@ -15,7 +15,7 @@ class AdmissionController extends Controller
      */
     public function create()
     {
-        return view('student.admissions.create'); // resources/views/student/admissions/create.blade.php
+        return view('student.admissions.create');
     }
 
     /**
@@ -111,14 +111,12 @@ class AdmissionController extends Controller
             ],
         ];
 
-        return view('student.admissions', compact(
+        return view('student.admissions.index', compact(
+            'admissions',
             'currentInfo',
             'progress',
             'admissionSteps'
         ));
-    }
-
-        return view('student.admissions.index', compact('admissions'));
     }
 
     /**
@@ -150,7 +148,7 @@ class AdmissionController extends Controller
     }
 
     /**
-     * Upload student documents (for logged-in students)
+     * Upload student documents
      */
     public function uploadDocuments(Request $request)
     {
@@ -174,9 +172,7 @@ class AdmissionController extends Controller
 
         foreach ($documents as $doc) {
             if ($request->hasFile($doc)) {
-                $file = $request->file($doc);
-                $path = $file->store('documents', 'public');
-                $uploadedFiles[$doc] = $path;
+                $uploadedFiles[$doc] = $request->file($doc)->store('documents', 'public');
             }
         }
 
