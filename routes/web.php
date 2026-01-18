@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DocumentController as AdminDocumentController;
 use App\Http\Controllers\Admin\AdmissionController as AdminAdmissionController;
-use App\Http\Controllers\Admin\TuitionController;
+use App\Http\Controllers\Admin\TuitionController as AdminTuitionController;
+use App\Http\Controllers\Student\TuitionController as StudentTuitionController;
 use App\Http\Controllers\Admin\ReportController;
-
 use App\Http\Controllers\Student\AdmissionController;
 use App\Http\Controllers\Student\DocumentController;
 
@@ -54,9 +54,18 @@ Route::middleware(['auth', 'verified'])->prefix('student')->name('student.')->gr
     Route::post('documents/upload', [DocumentController::class, 'upload'])->name('documents.upload');
 
     // Tuitions & Reports
-    Route::get('tuitions', fn () => view('student.tuitions'))->name('tuitions.index');
+Route::get('tuition', [StudentTuitionController::class, 'index'])
+    ->name('tuition.index');
+
+
     Route::get('reports', fn () => view('student.reports'))->name('reports.index');
 });
+
+
+
+
+Route::get('/student/tuition', [StudentTuitionController::class, 'index'])
+    ->name('student.tuition.index');
 
 /*
 |--------------------------------------------------------------------------
@@ -70,14 +79,14 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('users', UserController::class);
     Route::resource('documents', AdminDocumentController::class);
     Route::resource('admissions', AdminAdmissionController::class);
-    Route::resource('tuitions', TuitionController::class);
+    Route::resource('tuitions', AdminTuitionController::class);
     Route::resource('reports', ReportController::class);
 
     // Approvals
     Route::patch('documents/{document}/approve', [AdminDocumentController::class, 'approve'])->name('documents.approve');
     Route::patch('documents/{document}/reject', [AdminDocumentController::class, 'reject'])->name('documents.reject');
-    Route::patch('tuitions/{tuition}/approve', [TuitionController::class, 'approve'])->name('tuitions.approve');
-    Route::patch('tuitions/{tuition}/reject', [TuitionController::class, 'reject'])->name('tuitions.reject');
+    Route::patch('tuitions/{tuition}/approve', [AdminTuitionController::class, 'approve'])->name('tuitions.approve');
+    Route::patch('tuitions/{tuition}/reject', [AdminTuitionController::class, 'reject'])->name('tuitions.reject');
     Route::patch('admissions/{admission}/approve', [AdminAdmissionController::class, 'approve'])->name('admissions.approve');
     Route::patch('admissions/{admission}/reject', [AdminAdmissionController::class, 'reject'])->name('admissions.reject');
 });
