@@ -4,31 +4,31 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\DocumentController as AdminDocumentController;
 use App\Http\Controllers\Admin\AdmissionController as AdminAdmissionController;
 use App\Http\Controllers\Admin\TuitionController;
 use App\Http\Controllers\Admin\ReportController;
 
-use App\Http\Controllers\Student\AdmissionController as StudentAdmissionController;
+use App\Http\Controllers\Student\AdmissionController;
+use App\Http\Controllers\Student\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
 */
-// In web.php
 Route::get('/', fn () => view('welcome'))->name('welcome');
 Route::get('/about', fn () => view('about'))->name('about');
 Route::get('/education', fn () => view('education'))->name('education');
 Route::get('/contact', fn () => view('contact'))->name('contact');
 
-// Public admissions page
+// Public admissions page (no login required)
 Route::get('/admissions', fn () => view('admissions'))->name('admissions');
-Route::post('/admissions', [StudentAdmissionController::class, 'store'])->name('admissions.store');
+Route::post('/admissions', [AdmissionController::class, 'store'])->name('admissions.store');
 
 /*
 |--------------------------------------------------------------------------
-| Student Routes (requires login)
+| Student Routes (requires login & verified)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified'])->prefix('student')->name('student.')->group(function () {
@@ -37,24 +37,27 @@ Route::middleware(['auth', 'verified'])->prefix('student')->name('student.')->gr
     Route::get('/', fn () => view('student.index'))->name('index');
     Route::get('/dashboard', fn () => view('student.index'))->name('dashboard');
 
-    // Student-only admissions actions
-    Route::get('/admissions', [StudentAdmissionController::class, 'index'])->name('admissions.index');
-    Route::get('/admissions/{admission}', [StudentAdmissionController::class, 'show'])->name('admissions.show');
+    // Admissions
+    Route::get('admissions', [AdmissionController::class, 'index'])->name('admissions.index');
+    Route::get('admissions/create', [AdmissionController::class, 'create'])->name('admissions.create');
+    Route::post('admissions', [AdmissionController::class, 'store'])->name('admissions.store');
 
-    // Documents
-    Route::get('/admissions/documents', [StudentAdmissionController::class, 'documents'])->name('admissions.documents');
-    Route::post('/admissions/documents/upload', [StudentAdmissionController::class, 'uploadDocuments'])->name('admissions.documents.upload');
-    Route::get('/documents', [StudentAdmissionController::class, 'documents'])->name('documents.index');
-    Route::post('/documents/upload', [StudentAdmissionController::class, 'uploadDocuments'])->name('documents.upload');
+    // Admission-specific documents (latest admission)
+    Route::get('admissions/documents', [AdmissionController::class, 'documents'])->name('admissions.documents');
+    Route::post('admissions/documents/upload', [AdmissionController::class, 'uploadDocuments'])->name('admissions.documents.upload');
+
+    // Extra student documents (general)
+    Route::get('documents', [DocumentController::class, 'index'])->name('documents.index');
+    Route::post('documents/upload', [DocumentController::class, 'upload'])->name('documents.upload');
 
     // Tuitions & Reports
-    Route::get('/tuitions', fn () => view('student.tuitions'))->name('tuitions.index');
-    Route::get('/reports', fn () => view('student.reports'))->name('reports.index');
+    Route::get('tuitions', fn () => view('student.tuitions'))->name('tuitions.index');
+    Route::get('reports', fn () => view('student.reports'))->name('reports.index');
 });
 
 /*
 |--------------------------------------------------------------------------
-| Admin Routes (requires login)
+| Admin Routes (requires login & verified)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
@@ -62,14 +65,14 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/', fn () => view('admin.index'))->name('index');
 
     Route::resource('users', UserController::class);
-    Route::resource('documents', DocumentController::class);
+    Route::resource('documents', AdminDocumentController::class);
     Route::resource('admissions', AdminAdmissionController::class);
     Route::resource('tuitions', TuitionController::class);
     Route::resource('reports', ReportController::class);
 
     // Approvals
-    Route::patch('documents/{document}/approve', [DocumentController::class, 'approve'])->name('documents.approve');
-    Route::patch('documents/{document}/reject', [DocumentController::class, 'reject'])->name('documents.reject');
+    Route::patch('documents/{document}/approve', [AdminDocumentController::class, 'approve'])->name('documents.approve');
+    Route::patch('documents/{document}/reject', [AdminDocumentController::class, 'reject'])->name('documents.reject');
     Route::patch('tuitions/{tuition}/approve', [TuitionController::class, 'approve'])->name('tuitions.approve');
     Route::patch('tuitions/{tuition}/reject', [TuitionController::class, 'reject'])->name('tuitions.reject');
     Route::patch('admissions/{admission}/approve', [AdminAdmissionController::class, 'approve'])->name('admissions.approve');

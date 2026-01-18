@@ -2,49 +2,38 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role',
-    ];
+    // existing fillable, hidden, etc.
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
+     * Get all general documents uploaded by the student.
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function documents()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(\App\Models\Document::class)->where('type', 'general');
+    }
+
+    /**
+     * Get all admissions of the student.
+     */
+    public function admissions()
+    {
+        return $this->hasMany(\App\Models\Admission::class);
+    }
+
+    /**
+     * Optional: admission-specific documents (via admission relationship)
+     */
+    public function admissionDocuments()
+    {
+        return $this->hasMany(\App\Models\Document::class)->where('type', 'admission');
     }
 
     

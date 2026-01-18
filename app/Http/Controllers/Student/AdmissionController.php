@@ -11,17 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class AdmissionController extends Controller
 {
-    /**
-     * Show the admissions form
-     */
+    public function index()
+    {
+        $user = Auth::user();
+        $admissions = Admission::where('email', $user->email)->get();
+        return view('student.admissions.index', compact('admissions'));
+    }
+
     public function create()
     {
         return view('student.admissions.create');
     }
 
-    /**
-     * Store admission then redirect to document submission
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -39,6 +40,7 @@ class AdmissionController extends Controller
             'zip'                => 'required|string|max:20',
         ]);
 
+        // Generate unique application ID
         do {
             $applicationId = 'APP-' . now()->format('Ymd') . '-' . rand(1000, 9999);
         } while (Admission::where('application_id', $applicationId)->exists());
@@ -52,66 +54,47 @@ class AdmissionController extends Controller
         Mail::to($admission->email)->send(new ApplicationSubmitted($admission));
 
         return redirect()
-            ->route('student.admissions.documents', $admission)
-            ->with('success', 'Application submitted successfully. Please upload required documents.');
+            ->route('student.admissions.documents')
+            ->with('success', 'Application submitted. Please upload required documents.');
     }
 
-    /**
-     * Show admissions dashboard for logged-in student
-     */
-    public function index()
+    public function documents()
     {
         $user = Auth::user();
+        $admission = Admission::where('email', $user->email)->latest()->first();
 
-        $admissions = Admission::where('email', $user->email)->get();
+        if (!$admission) {
+            return redirect()->route('student.admissions.index')
+                ->with('error', 'No admission found. Please submit an application first.');
+        }
 
-        $progress = 100;
+        $documents = $admission->documents ? json_decode($admission->documents, true) : [];
 
-        return view('student.admissions.index', compact(
-            'admissions',
-            'progress'
-        ));
+        return view('student.admissions.documents', compact('admission', 'documents'));
     }
 
-    /**
-     * Show single admission
-     */
-    public function show(Admission $admission)
+    public function uploadDocuments(Request $request)
     {
-        $this->authorizeAdmission($admission);
+        $user = Auth::user();
+        $admission = Admission::where('email', $user->email)->latest()->first();
 
-        return view('student.admissions.show', compact('admission'));
-    }
-
-    /**
-     * Show document submission step
-     */
-    public function documents(Admission $admission)
-    {
-        $this->authorizeAdmission($admission);
-
-        return view('student.admissions.documents', compact('admission'));
-    }
-
-    /**
-     * Handle document uploads
-     */
-    public function uploadDocuments(Request $request, Admission $admission)
-    {
-        $this->authorizeAdmission($admission);
+        if (!$admission) {
+            return redirect()->route('student.admissions.index')
+                ->with('error', 'No admission found. Please submit an application first.');
+        }
 
         $request->validate([
-            'birth_certificate' => 'nullable|file|mimes:pdf,jpg,png',
-            'baptismal_certificate' => 'nullable|file|mimes:pdf,jpg,png',
-            'report_card' => 'nullable|file|mimes:pdf,jpg,png',
-            'good_moral_certificate' => 'nullable|file|mimes:pdf,jpg,png',
-            'medical_records' => 'nullable|file|mimes:pdf,jpg,png',
-            'id_photos' => 'nullable|file|mimes:jpg,png',
-            'parent_id' => 'nullable|file|mimes:jpg,png',
-            'proof_of_residence' => 'nullable|file|mimes:pdf,jpg,png',
+            'birth_certificate' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'baptismal_certificate' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'report_card' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'good_moral_certificate' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'medical_records' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'id_photos' => 'nullable|file|mimes:jpg,png|max:2048',
+            'parent_id' => 'nullable|file|mimes:jpg,png|max:2048',
+            'proof_of_residence' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
         ]);
 
-        $documents = [];
+        $documents = $admission->documents ? json_decode($admission->documents, true) : [];
 
         foreach ($request->files as $key => $file) {
             $documents[$key] = $file->store('documents', 'public');
@@ -122,18 +105,8 @@ class AdmissionController extends Controller
             'status' => 'documents_submitted',
         ]);
 
-        return redirect()
-            ->route('student.admissions.show', $admission)
+        return redirect()->route('student.admissions.documents')
             ->with('success', 'Documents uploaded successfully.');
     }
-
-    /**
-     * Ensure logged-in student owns the admission
-     */
-    private function authorizeAdmission(Admission $admission)
-    {
-        if (!Auth::check() || Auth::user()->email !== $admission->email) {
-            abort(403, 'Unauthorized');
-        }
-    }
+    
 }

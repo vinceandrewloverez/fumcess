@@ -181,6 +181,34 @@
 
             </form>
         </div>
+
+        <!-- Navigation Buttons -->
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mb-6 mt-11">
+            <!-- Previous Button (only show if not on first step) -->
+            @if (!Request::is('student/admissions'))
+                <a href="{{ url()->previous() }}"
+                    class="inline-flex items-center text-gray-600 hover:text-gray-800 px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Previous
+                </a>
+            @else
+                <div></div> <!-- empty div to keep spacing for Next button -->
+            @endif
+
+            <!-- Next Button -->
+            <a href="{{ route('student.admissions.documents') }}"
+                class="inline-flex items-center text-white bg-green-700 hover:bg-green-800 px-4 py-2 rounded transition">
+                Next
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
     </main>
 
 </body>
