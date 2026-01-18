@@ -56,14 +56,14 @@
 
         <a href="{{ route('student.tuition.index') }}"
            class="flex items-center gap-3 px-4 py-3 rounded-lg
-           {{ request()->routeIs('student.tuitions.*') ? 'bg-white text-[#057E2E] font-bold shadow' : 'text-white hover:bg-white hover:text-[#057E2E]' }}">
+           {{ request()->routeIs('student.tuition.*') ? 'bg-white text-[#057E2E] font-bold shadow' : 'text-white hover:bg-white hover:text-[#057E2E]' }}">
             Tuitions
         </a>
 
-        <a href="{{ route('student.reports.index') }}"
+        <a href="{{ route('student.grades.index') }}"
            class="flex items-center gap-3 px-4 py-3 rounded-lg
-           {{ request()->routeIs('student.reports.*') ? 'bg-white text-[#057E2E] font-bold shadow' : 'text-white hover:bg-white hover:text-[#057E2E]' }}">
-            Reports
+           {{ request()->routeIs('student.grades.*') ? 'bg-white text-[#057E2E] font-bold shadow' : 'text-white hover:bg-white hover:text-[#057E2E]' }}">
+            Grades
         </a>
     </nav>
 

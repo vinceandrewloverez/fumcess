@@ -17,13 +17,14 @@ use App\Http\Controllers\Student\DocumentController;
 | Public Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', fn () => view('welcome'))->name('welcome');
-Route::get('/about', fn () => view('about'))->name('about');
-Route::get('/education', fn () => view('education'))->name('education');
-Route::get('/contact', fn () => view('contact'))->name('contact');
+
+Route::get('/', fn() => view('welcome'))->name('welcome');
+Route::get('/about', fn() => view('about'))->name('about');
+Route::get('/education', fn() => view('education'))->name('education');
+Route::get('/contact', fn() => view('contact'))->name('contact');
 
 // Public admissions page (no login required)
-Route::get('/admissions', fn () => view('admissions'))->name('admissions');
+Route::get('/admissions', fn() => view('admissions'))->name('admissions');
 Route::post('/admissions', [AdmissionController::class, 'store'])->name('admissions.store');
 
 /*
@@ -34,8 +35,8 @@ Route::post('/admissions', [AdmissionController::class, 'store'])->name('admissi
 Route::middleware(['auth', 'verified'])->prefix('student')->name('student.')->group(function () {
 
     // Dashboard
-    Route::get('/', fn () => view('student.index'))->name('index');
-    Route::get('/dashboard', fn () => view('student.index'))->name('dashboard');
+    Route::get('/', fn() => view('student.index'))->name('index');
+    Route::get('/dashboard', fn() => view('student.index'))->name('dashboard');
 
     // Admissions
     Route::get('admissions', [AdmissionController::class, 'index'])->name('admissions.index');
@@ -54,11 +55,11 @@ Route::middleware(['auth', 'verified'])->prefix('student')->name('student.')->gr
     Route::post('documents/upload', [DocumentController::class, 'upload'])->name('documents.upload');
 
     // Tuitions & Reports
-Route::get('tuition', [StudentTuitionController::class, 'index'])
-    ->name('tuition.index');
+    Route::get('tuition', [StudentTuitionController::class, 'index'])
+        ->name('tuition.index');
 
 
-    Route::get('reports', fn () => view('student.reports'))->name('reports.index');
+    Route::get('grades', fn() => view('student.grades.index'))->name('grades.index');
 });
 
 
@@ -74,7 +75,7 @@ Route::get('/student/tuition', [StudentTuitionController::class, 'index'])
 */
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
 
-    Route::get('/', fn () => view('admin.index'))->name('index');
+    Route::get('/', fn() => view('admin.index'))->name('index');
 
     Route::resource('users', UserController::class);
     Route::resource('documents', AdminDocumentController::class);
