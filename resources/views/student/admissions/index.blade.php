@@ -1,125 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Admissions</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="min-h-screen flex bg-gray-100">
 
     {{-- Sidebar --}}
     @include('student.layouts.sidebar')
 
-    <div class="space-y-6">
+    <main class="flex-1 p-8">
+        <div class="max-w-4xl mx-auto">
 
-        <!-- Header -->
-        <div class="animate-fade-in">
-            <h1 class="text-3xl font-bold text-gray-800">Admissions</h1>
-            <p class="text-gray-500 mt-1">Your admission status and enrollment information</p>
-        </div>
-    
-        <!-- Grid: Current Enrollment + Status -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    
-            <!-- Current Enrollment Info -->
-            <div class="lg:col-span-2 bg-white rounded-xl shadow p-6 animate-fade-in">
-                <div class="flex items-center gap-2 mb-4">
-                    <!-- GraduationCap icon -->
-                    <svg class="h-5 w-5 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 14l6.16-3.422a12.083 12.083 0 01.84 4.421 12.083 12.083 0 01-.84 4.422L12 14z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 14L5.84 19.422A12.083 12.083 0 016.68 15a12.083 12.083 0 01-.84-4.422L12 14z" />
-                    </svg>
-                    <h2 class="text-lg font-semibold">Current Enrollment</h2>
-                </div>
-    
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <div>
-                            <p class="text-sm text-gray-500">Program</p>
-                            <p class="font-medium">{{ $currentInfo['program'] }}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Year Level & Section</p>
-                            <p class="font-medium">{{ $currentInfo['yearLevel'] }} - {{ $currentInfo['section'] }}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Academic Year</p>
-                            <p class="font-medium">{{ $currentInfo['academicYear'] }}</p>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div>
-                            <p class="text-sm text-gray-500">Academic Adviser</p>
-                            <p class="font-medium">{{ $currentInfo['adviser'] }}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Student Status</p>
-                            <span class="inline-block mt-1 px-3 py-1 rounded-full text-green-700 bg-green-100">
-                                {{ $currentInfo['status'] }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <!-- Status Card -->
-            <div class="bg-green-700 text-white rounded-xl shadow p-6 flex flex-col justify-center animate-fade-in">
-                <div class="text-center space-y-4">
-                    <div class="h-16 w-16 mx-auto rounded-full bg-white/20 flex items-center justify-center">
-                        <!-- CheckCircle2 icon -->
-                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4" />
-                        </svg>
+            <h1 class="text-3xl font-bold text-green-700 mb-8 text-center">Student Enrollment Application</h1>
+
+            <form action="{{ route('admissions.store') }}" method="POST" class="bg-white rounded-3xl p-8 md:p-12 shadow-lg space-y-8">
+                @csrf
+
+                <!-- Student Info -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">Student First Name *</label>
+                        <input type="text" name="student_first_name" value="{{ old('student_first_name') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                               placeholder="First Name">
                     </div>
                     <div>
-                        <p class="text-2xl font-bold">Fully Enrolled</p>
-                        <p class="text-sm opacity-80">Spring Semester 2026</p>
+                        <label class="block text-sm font-medium text-green-700 mb-2">Student Last Name *</label>
+                        <input type="text" name="student_last_name" value="{{ old('student_last_name') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                               placeholder="Last Name">
                     </div>
-                    <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
-                        <div class="bg-white h-2 rounded-full" style="width: {{ $progress }}%;"></div>
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">Date of Birth *</label>
+                        <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                     </div>
-                    <p class="text-xs opacity-70">All admission requirements completed</p>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-green-700 mb-2">Grade Applying For *</label>
+                        <select name="grade_applied" required
+                                class="appearance-none w-full px-4 py-3 rounded-xl border border-green-700 text-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            <option value="">Select a grade</option>
+                            @for($i = 1; $i <= 12; $i++)
+                                <option value="Grade {{ $i }}" {{ old('grade_applied') == "Grade $i" ? 'selected' : '' }}>Grade {{ $i }}</option>
+                            @endfor
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                            <svg class="h-5 w-5 text-green-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    
-        <!-- Admission Timeline -->
-        <div class="bg-white rounded-xl shadow p-6 animate-fade-in">
-            <h3 class="font-semibold text-lg mb-4">Admission Timeline</h3>
-            <div class="relative">
-                @foreach ($admissionSteps as $index => $step)
-                    <div class="flex gap-4 pb-8 last:pb-0">
-                        <div class="flex flex-col items-center">
-                            <div class="h-10 w-10 rounded-full flex items-center justify-center 
-                                {{ $step['status'] === 'completed' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-500' }}">
-                                <!-- Step icon placeholder -->
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="{{ $step['iconPath'] }}" />
-                                </svg>
-                            </div>
-                            @if ($index < count($admissionSteps)-1)
-                                <div class="w-0.5 flex-1 mt-2 {{ $step['status']==='completed' ? 'bg-green-700' : 'bg-gray-200' }}"></div>
-                            @endif
+
+                <!-- Parent Info -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">Parent First Name *</label>
+                        <input type="text" name="parent_first_name" value="{{ old('parent_first_name') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">Parent Last Name *</label>
+                        <input type="text" name="parent_last_name" value="{{ old('parent_last_name') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">Email *</label>
+                        <input type="email" name="email" value="{{ old('email') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                               placeholder="parent@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">Phone *</label>
+                        <input type="tel" name="phone" value="{{ old('phone') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                               placeholder="(0912) 345 6789">
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-green-700 mb-2">Street Address *</label>
+                        <input type="text" name="street" value="{{ old('street') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-green-700 mb-2">City *</label>
+                        <input type="text" name="city" value="{{ old('city') }}" required
+                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-green-700 mb-2">State *</label>
+                            <input type="text" name="state" value="{{ old('state') }}" required
+                                   class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                         </div>
-                        <div class="flex-1 pt-1.5">
-                            <div class="flex items-center justify-between">
-                                <h4 class="font-medium">{{ $step['title'] }}</h4>
-                                <span class="text-sm text-gray-500">{{ $step['date'] }}</span>
-                            </div>
+                        <div>
+                            <label class="block text-sm font-medium text-green-700 mb-2">ZIP Code *</label>
+                            <input type="text" name="zip" value="{{ old('zip') }}" required
+                                   class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                         </div>
                     </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    
-</body>
-</html>
+                </div>
 
+                <!-- Submit -->
+                <div class="text-center">
+                    <button type="submit"
+                            class="bg-green-700 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-800 transition">
+                        Submit Application
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

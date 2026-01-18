@@ -16,7 +16,8 @@ use App\Http\Controllers\Student\AdmissionController as StudentAdmissionControll
 | Public Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', fn () => view('welcome'))->name('home');
+// In web.php
+Route::get('/', fn () => view('welcome'))->name('welcome');
 Route::get('/about', fn () => view('about'))->name('about');
 Route::get('/education', fn () => view('education'))->name('education');
 Route::get('/contact', fn () => view('contact'))->name('contact');

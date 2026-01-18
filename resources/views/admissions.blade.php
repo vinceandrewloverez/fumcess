@@ -92,7 +92,18 @@
       </div>
     </section>
     
-
+    <section class="py-20 bg-green-700">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold text-white mb-4">Ready to Join FUMCES?</h2>
+        <p class="text-lg text-green-100 mb-8">Start your enrollment today and become part of our vibrant learning community.</p>
+        
+        <a href="{{ auth()->check() ? route('student.admissions.index') : route('login') }}" 
+           class="inline-block bg-white text-green-700 font-semibold px-8 py-4 rounded-3xl shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1">
+          Apply Now
+        </a>
+      </div>
+    </section>
+    
 
   </main>
 
