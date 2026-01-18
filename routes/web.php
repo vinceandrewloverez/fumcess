@@ -46,6 +46,9 @@ Route::middleware(['auth', 'verified'])->prefix('student')->name('student.')->gr
     Route::get('admissions/documents', [AdmissionController::class, 'documents'])->name('admissions.documents');
     Route::post('admissions/documents/upload', [AdmissionController::class, 'uploadDocuments'])->name('admissions.documents.upload');
 
+    Route::get('admissions/payment', [AdmissionController::class, 'payment'])->name('admissions.payment');
+
+
     // Extra student documents (general)
     Route::get('documents', [DocumentController::class, 'index'])->name('documents.index');
     Route::post('documents/upload', [DocumentController::class, 'upload'])->name('documents.upload');

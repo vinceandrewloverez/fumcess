@@ -14,10 +14,10 @@ class AdmissionController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $admissions = Admission::where('email', $user->email)->get();
-        return view('student.admissions.index', compact('admissions'));
+        $admission = Admission::where('email', $user->email)->latest()->first(); // latest admission
+        return view('student.admissions.index', compact('admission'));
     }
-
+    
     public function create()
     {
         return view('student.admissions.create');
@@ -62,17 +62,17 @@ class AdmissionController extends Controller
     {
         $user = Auth::user();
         $admission = Admission::where('email', $user->email)->latest()->first();
-
+    
         if (!$admission) {
             return redirect()->route('student.admissions.index')
                 ->with('error', 'No admission found. Please submit an application first.');
         }
-
+    
         $documents = $admission->documents ? json_decode($admission->documents, true) : [];
-
+    
         return view('student.admissions.documents', compact('admission', 'documents'));
     }
-
+    
     public function uploadDocuments(Request $request)
     {
         $user = Auth::user();
@@ -108,5 +108,17 @@ class AdmissionController extends Controller
         return redirect()->route('student.admissions.documents')
             ->with('success', 'Documents uploaded successfully.');
     }
+
+    public function payment()
+{
+    $admission = (object)[
+        'application_id' => 'APP-00123',
+        'total_fee' => '5000'
+    ];
+    return view('student.admissions.payment', compact('admission'));
+}
+
+
+    
     
 }
