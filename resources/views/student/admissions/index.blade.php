@@ -16,9 +16,68 @@
     <main class="flex-1 p-8">
         <div class="max-w-4xl mx-auto">
 
+            <!-- Enrollment Progress -->
+            <section class="mb-14">
+                <h2 class="text-2xl font-bold text-green-700 text-center mb-10">
+                    Enrollment Journey
+                </h2>
+
+                <div class="relative max-w-5xl mx-auto">
+
+                    <!-- Center Line -->
+                    <div class="hidden md:block absolute left-0 right-0 top-[32px] h-1 bg-green-700"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 relative z-10">
+
+                        <!-- Step 1 Active -->
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-green-700 text-white flex items-center justify-center text-xl font-bold shadow-lg">
+                                1
+                            </div>
+                            <p class="mt-4 font-semibold text-green-700">Application</p>
+                            <p class="text-sm text-gray-500">Fill out student details</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-white border-4 border-green-700 text-green-700 flex items-center justify-center text-xl font-bold">
+                                2
+                            </div>
+                            <p class="mt-4 font-semibold text-green-700">Documents</p>
+                            <p class="text-sm text-gray-500">Upload requirements</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-white border-4 border-green-700 text-green-700 flex items-center justify-center text-xl font-bold">
+                                3
+                            </div>
+                            <p class="mt-4 font-semibold text-green-700">Review</p>
+                            <p class="text-sm text-gray-500">Interview and assessment</p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="flex flex-col items-center text-center">
+                            <div
+                                class="w-16 h-16 rounded-full bg-white border-4 border-green-700 text-green-700 flex items-center justify-center text-xl font-bold">
+                                4
+                            </div>
+                            <p class="mt-4 font-semibold text-green-700">Confirmed</p>
+                            <p class="text-sm text-gray-500">Official enrollment</p>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
             <h1 class="text-3xl font-bold text-green-700 mb-8 text-center">Student Enrollment Application</h1>
 
-            <form action="{{ route('admissions.store') }}" method="POST" class="bg-white rounded-3xl p-8 md:p-12 shadow-lg space-y-8">
+            <form action="{{ route('admissions.store') }}" method="POST"
+                class="bg-white rounded-3xl p-8 md:p-12 shadow-lg space-y-8">
                 @csrf
 
                 <!-- Student Info -->
@@ -26,32 +85,35 @@
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">Student First Name *</label>
                         <input type="text" name="student_first_name" value="{{ old('student_first_name') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
-                               placeholder="First Name">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                            placeholder="First Name">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">Student Last Name *</label>
                         <input type="text" name="student_last_name" value="{{ old('student_last_name') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
-                               placeholder="Last Name">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                            placeholder="Last Name">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">Date of Birth *</label>
                         <input type="date" name="date_of_birth" value="{{ old('date_of_birth') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                     </div>
                     <div class="relative">
                         <label class="block text-sm font-medium text-green-700 mb-2">Grade Applying For *</label>
                         <select name="grade_applied" required
-                                class="appearance-none w-full px-4 py-3 rounded-xl border border-green-700 text-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            class="appearance-none w-full px-4 py-3 rounded-xl border border-green-700 text-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                             <option value="">Select a grade</option>
                             @for($i = 1; $i <= 12; $i++)
-                                <option value="Grade {{ $i }}" {{ old('grade_applied') == "Grade $i" ? 'selected' : '' }}>Grade {{ $i }}</option>
+                                <option value="Grade {{ $i }}" {{ old('grade_applied') == "Grade $i" ? 'selected' : '' }}>
+                                    Grade {{ $i }}</option>
                             @endfor
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                            <svg class="h-5 w-5 text-green-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            <svg class="h-5 w-5 text-green-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
                             </svg>
                         </div>
                     </div>
@@ -62,24 +124,24 @@
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">Parent First Name *</label>
                         <input type="text" name="parent_first_name" value="{{ old('parent_first_name') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">Parent Last Name *</label>
                         <input type="text" name="parent_last_name" value="{{ old('parent_last_name') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">Email *</label>
                         <input type="email" name="email" value="{{ old('email') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
-                               placeholder="parent@example.com">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                            placeholder="parent@example.com">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">Phone *</label>
                         <input type="tel" name="phone" value="{{ old('phone') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
-                               placeholder="(0912) 345 6789">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700"
+                            placeholder="(0912) 345 6789">
                     </div>
                 </div>
 
@@ -88,23 +150,23 @@
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-green-700 mb-2">Street Address *</label>
                         <input type="text" name="street" value="{{ old('street') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-green-700 mb-2">City *</label>
                         <input type="text" name="city" value="{{ old('city') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-green-700 mb-2">State *</label>
                             <input type="text" name="state" value="{{ old('state') }}" required
-                                   class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                                class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-green-700 mb-2">ZIP Code *</label>
                             <input type="text" name="zip" value="{{ old('zip') }}" required
-                                   class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                                class="w-full px-4 py-3 rounded-xl border border-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
                         </div>
                     </div>
                 </div>
@@ -112,7 +174,7 @@
                 <!-- Submit -->
                 <div class="text-center">
                     <button type="submit"
-                            class="bg-green-700 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-800 transition">
+                        class="bg-green-700 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-800 transition">
                         Submit Application
                     </button>
                 </div>
