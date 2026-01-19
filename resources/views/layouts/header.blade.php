@@ -23,12 +23,12 @@
             @auth
                 @php
                     $role = auth()->user()->role;
-                    switch($role) {
+                    switch ($role) {
                         case 'admin':
                             $portalRoute = route('admin.index');
                             break;
                         case 'teacher':
-                            $portalRoute = route('teacher.dashboard');
+                            $portalRoute = route('teacher.index');
                             break;
                         case 'student':
                             $portalRoute = route('student.index');
@@ -36,13 +36,25 @@
                         case 'registrar':
                             $portalRoute = route('registrar.index');
                             break;
+                        case 'school-admin':
+                            $portalRoute = route('school-admin.index');
+                            break;
+                        case 'adviser':
+                            $portalRoute = route('adviser.index');
+                            break;
+                        case 'parent':
+                            $portalRoute = route('parent.index');
+                            break;
+
+
+
                         default:
                             $portalRoute = route('welcome');
                     }
                 @endphp
 
                 <a href="{{ $portalRoute }}"
-                   class="bg-[#057e2f] px-3 py-1 rounded hover:bg-green-700 font-bold inline-flex items-center gap-1">
+                    class="bg-[#057e2f] px-3 py-1 rounded hover:bg-green-700 font-bold inline-flex items-center gap-1">
                     <span class="text-[#d7e1b3]">FUMSYS</span>
                     <span class="text-[#e5db19]">Portal</span>
                 </a>
@@ -57,7 +69,7 @@
             @else
                 <!-- Guests -->
                 <a href="{{ route('login') }}"
-                   class="bg-green-700 px-3 py-1 rounded hover:bg-green-800 font-bold inline-flex items-center gap-1">
+                    class="bg-green-700 px-3 py-1 rounded hover:bg-green-800 font-bold inline-flex items-center gap-1">
                     <span class="text-green-200">FUMSYS</span>
                     <span class="text-yellow-400">Portal</span>
                 </a>

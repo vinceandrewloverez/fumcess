@@ -10,14 +10,34 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // existing fillable, hidden, etc.
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',      // Allow name for mass assignment
+        'email',     // Allow email
+        'password',  // Allow password
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
      * Get all general documents uploaded by the student.
      */
     public function documents()
     {
-        return $this->hasMany(\App\Models\Document::class)->where('type', 'general');
+        return $this->hasMany(\App\Models\Document::class)
+                    ->where('type', 'general');
     }
 
     /**
@@ -29,12 +49,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Optional: admission-specific documents (via admission relationship)
+     * Get all admission-specific documents.
      */
     public function admissionDocuments()
     {
-        return $this->hasMany(\App\Models\Document::class)->where('type', 'admission');
+        return $this->hasMany(\App\Models\Document::class)
+                    ->where('type', 'admission');
     }
-
-    
 }

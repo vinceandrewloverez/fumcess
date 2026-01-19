@@ -24,6 +24,37 @@ use App\Http\Controllers\Registrar\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
+| School Admin Routes (requires login & verified)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->prefix('school-admin')->name('school-admin.')->group(function () {
+    Route::get('/', fn() => view('school-admin.index'))->name('index');
+    // Add more school admin resources if needed
+});
+
+/*
+|--------------------------------------------------------------------------
+| Class Adviser / Homeroom Teacher Routes (requires login & verified)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->prefix('adviser')->name('adviser.')->group(function () {
+    Route::get('/', fn() => view('adviser.index'))->name('index');
+    // Add more adviser-specific routes here, e.g., students, grades
+});
+
+/*
+|--------------------------------------------------------------------------
+| Parent / Guardian Routes (requires login & verified)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->prefix('parent')->name('parent.')->group(function () {
+    Route::get('/', fn() => view('parent.index'))->name('index');
+    // Add more parent-specific routes here, e.g., view child’s grades, tuition
+});
+
+
+/*
+|--------------------------------------------------------------------------
 | Registrar Routes (requires login & verified)
 |--------------------------------------------------------------------------
 */
@@ -148,3 +179,4 @@ Route::middleware('auth')->post('/logout', function () {
 })->name('logout');
 
 require __DIR__ . '/auth.php';
+
