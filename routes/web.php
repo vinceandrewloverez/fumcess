@@ -11,6 +11,49 @@ use App\Http\Controllers\Student\TuitionController as StudentTuitionController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Student\AdmissionController;
 use App\Http\Controllers\Student\DocumentController;
+use App\Http\Controllers\Registrar\StudentController as RegistrarStudentController;
+use App\Http\Controllers\Registrar\AdmissionController as RegistrarAdmissionController;
+use App\Http\Controllers\Registrar\DocumentController as RegistrarDocumentController;
+use App\Http\Controllers\Registrar\TuitionController as RegistrarTuitionController;
+use App\Http\Controllers\Registrar\DashboardController;
+use App\Http\Controllers\Registrar\StudentController;
+use App\Http\Controllers\Registrar\GradesController;
+use App\Http\Controllers\Registrar\CurriculumController;
+use App\Http\Controllers\Registrar\SchedulingController;
+use App\Http\Controllers\Registrar\AttendanceController;
+
+/*
+|--------------------------------------------------------------------------
+| Registrar Routes (requires login & verified)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->prefix('registrar')->name('registrar.')->group(function () {
+
+    // Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    // Students
+    Route::resource('students', StudentController::class);
+
+    // Grades
+    Route::get('grades', [GradesController::class, 'index'])->name('grades.index');
+
+    // Curriculum
+    Route::get('curriculum', [CurriculumController::class, 'index'])->name('curriculum.index');
+
+    // Scheduling
+    Route::get('scheduling', [SchedulingController::class, 'index'])->name('scheduling.index');
+
+    // Documents
+    Route::get('documents', [DocumentController::class, 'index'])->name('documents.index');
+
+    // Attendance
+    Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +134,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::patch('admissions/{admission}/approve', [AdminAdmissionController::class, 'approve'])->name('admissions.approve');
     Route::patch('admissions/{admission}/reject', [AdminAdmissionController::class, 'reject'])->name('admissions.reject');
 });
+
+
 
 /*
 |--------------------------------------------------------------------------

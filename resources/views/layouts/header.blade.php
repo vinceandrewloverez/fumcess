@@ -33,8 +33,8 @@
                         case 'student':
                             $portalRoute = route('student.index');
                             break;
-                        case 'developer':
-                            $portalRoute = route('developer.dashboard');
+                        case 'registrar':
+                            $portalRoute = route('registrar.index');
                             break;
                         default:
                             $portalRoute = route('welcome');
