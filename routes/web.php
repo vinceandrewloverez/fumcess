@@ -43,6 +43,18 @@ Route::middleware(['auth', 'verified'])->prefix('adviser')->name('adviser.')->gr
 });
 
 /*
+-----------------------------------------------------------------------
+| Class Adviser / Homeroom Teacher Routes (requires login & verified)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->prefix('teacher')->name('teacher.')->group(function () {
+    Route::get('/', fn() => view('teacher.index'))->name('index');
+    // Add more adviser-specific routes here, e.g., students, grades
+});
+
+
+
+/*
 |--------------------------------------------------------------------------
 | Parent / Guardian Routes (requires login & verified)
 |--------------------------------------------------------------------------
