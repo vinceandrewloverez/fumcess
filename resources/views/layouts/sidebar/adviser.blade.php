@@ -9,10 +9,8 @@
                       d="M5.121 17.804A9 9 0 1118.88 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
         </div>
-   
 
-        
-<!-- Display User Name -->
+        <!-- Display User Name -->
 <p class="font-semibold text-white text-lg">
     {{ auth()->user()->name }}
 </p>
@@ -40,7 +38,8 @@
             User
     @endswitch
 </p>
-        
+
+
         <!-- Logout Button -->
         <form method="POST" action="{{ route('logout') }}">
             @csrf
@@ -58,24 +57,24 @@
             <span>Dashboard</span>
         </a>
 
-        <!-- Class List -->
+        <!-- Students -->
         <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white hover:bg-white hover:text-[#057E2E] hover:font-semibold transition">
-            <span>Class List</span>
+            <span>Students</span>
         </a>
 
-        <!-- Grade Entry -->
+        <!-- Grades -->
         <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white hover:bg-white hover:text-[#057E2E] hover:font-semibold transition">
-            <span>Grade Entry</span>
+            <span>Grades</span>
         </a>
 
-        <!-- Quarterly Grades -->
+        <!-- Schedule -->
         <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white hover:bg-white hover:text-[#057E2E] hover:font-semibold transition">
-            <span>Quarterly Grades</span>
+            <span>Schedule</span>
         </a>
 
-        <!-- Grades Reports -->
+        <!-- Report Cards -->
         <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white hover:bg-white hover:text-[#057E2E] hover:font-semibold transition">
-            <span>Grades Reports</span>
+            <span>Report Cards</span>
         </a>
 
     </nav>
