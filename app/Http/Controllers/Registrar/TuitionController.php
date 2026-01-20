@@ -11,7 +11,7 @@ class TuitionController extends Controller
     public function index()
     {
         $tuitions = Tuition::all();
-        return view('registrar.tuitions.index', compact('tuitions'));
+        return view('registrar.tuition', compact('tuitions'));
     }
 
     public function show(Tuition $tuition)

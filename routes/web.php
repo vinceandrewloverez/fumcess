@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\DocumentController as AdminDocumentController;
 use App\Http\Controllers\Admin\AdmissionController as AdminAdmissionController;
 use App\Http\Controllers\Admin\TuitionController as AdminTuitionController;
 use App\Http\Controllers\Student\TuitionController as StudentTuitionController;
-use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Student\AdmissionController;
 use App\Http\Controllers\Student\DocumentController;
 use App\Http\Controllers\Registrar\StudentController as RegistrarStudentController;
@@ -21,6 +20,28 @@ use App\Http\Controllers\Registrar\GradesController;
 use App\Http\Controllers\Registrar\CurriculumController;
 use App\Http\Controllers\Registrar\SchedulingController;
 use App\Http\Controllers\Registrar\AttendanceController;
+use App\Http\Controllers\Registrar\EnrollmentController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Registrar\ReportController as RegistrarReportController;
+
+use App\Http\Controllers\Registrar\ReportController;
+
+Route::prefix('registrar')->group(function () {
+    Route::get('enrollment-summary', [ReportController::class, 'enrollmentSummary'])
+        ->name('reports.enrollment-summary');
+
+    Route::get('payment-reports', [ReportController::class, 'paymentReports'])
+        ->name('reports.payment-reports');
+});
+
+Route::prefix('registrar')->group(function () {
+    Route::get('enrollment-summary', [ReportController::class, 'enrollmentSummary'])
+        ->name('reports.enrollment-summary');
+
+    Route::get('payment-reports', [ReportController::class, 'paymentReports'])
+        ->name('reports.payment-reports');
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -70,39 +91,45 @@ Route::middleware(['auth', 'verified'])->prefix('parent')->name('parent.')->grou
 | Registrar Routes (requires login & verified)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified'])->prefix('registrar')->name('registrar.')->group(function () {
+Route::middleware(['auth', 'verified'])
+    ->prefix('registrar')
+    ->name('registrar.')
+    ->group(function () {
 
-    // Dashboard
-    Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-    // Students
-    Route::resource('students', StudentController::class);
+        Route::resource('students', StudentController::class);
 
-    // Grades
-    Route::get('grades', [GradesController::class, 'index'])->name('grades.index');
+  // Enrollment route named exactly registrar.enrollment
+  Route::get('enrollment', [EnrollmentController::class, 'index'])
+  ->name('enrollment'); // <-- this sets route name to registrar.enrollment
+  
 
-    // Curriculum
-    Route::get('curriculum', [CurriculumController::class, 'index'])->name('curriculum.index');
+  Route::get('documents', [RegistrarDocumentController::class, 'index'])
+  ->name('documents'); // <-- this sets route name to registrar.enrollment
 
-    // Scheduling
-    Route::get('scheduling', [SchedulingController::class, 'index'])->name('scheduling.index');
+  Route::get('tuition', [RegistrarTuitionController::class, 'index'])
+  ->name('tuition'); // <-- this sets route name to registrar.enrollment
 
-    // Documents
-    Route::get('documents', [DocumentController::class, 'index'])->name('documents.index');
 
-    // Attendance
-    Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.index');
-
-    // Reports
-    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+  Route::prefix('registrar')->group(function () {
+      // Enrollment Summary
+      Route::get('enrollment-summary', [ReportController::class, 'enrollmentSummary'])
+          ->name('reports.enrollment-summary');
+  
+      // Payment Reports
+      Route::get('payment-reports', [ReportController::class, 'paymentReports'])
+          ->name('reports.payment-reports');
+  });
+  
 });
-
-
 /*
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
 */
+
+
 
 Route::get('/', fn() => view('welcome'))->name('welcome');
 Route::get('/about', fn() => view('about'))->name('about');

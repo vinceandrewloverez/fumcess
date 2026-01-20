@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Registrar;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Student;
+use App\Models\Registrar\Student;
 
 class StudentController extends Controller
 {
     public function index()
     {
         $students = Student::all();
-        return view('registrar.students.index', compact('students'));
+        return view('registrar.students', compact('students'));
     }
 
     public function create()

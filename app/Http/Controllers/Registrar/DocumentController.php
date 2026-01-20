@@ -11,7 +11,7 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = Document::all();
-        return view('registrar.documents.index', compact('documents'));
+        return view('registrar.documents', compact('documents'));
     }
 
     public function show(Document $document)

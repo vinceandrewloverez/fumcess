@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - School Year 2024-2025</title>
+  <title>Registrar Dashboard - SY 2024-2025</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/feather-icons"></script>
 </head>
@@ -12,101 +11,140 @@
 <body class="bg-gray-100 min-h-screen flex">
 
   <!-- Sidebar -->
-  @include('layouts.sidebar.registrar')
+  <div class="w-64">
+    @include('layouts.sidebar.registrar')
+  </div>
 
-  <!-- Main Content -->
+  <!-- Main Wrapper -->
   <div class="flex-1 flex flex-col">
-    <header class="bg-white shadow p-6 lg:p-8 flex justify-between items-center">
-      <div>
-        <h2 class="text-3xl font-bold text-green-700">Dashboard</h2>
-        <p class="text-gray-500">School Year 2024-2025</p>
-      </div>
-      <div class="flex items-center space-x-4">
-        <button class="bg-green-700 text-white px-4 py-2 rounded-lg shadow hover:bg-green-800 transition">Add
-          Student</button>
-        <button class="bg-gray-100 text-green-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition">Settings</button>
-      </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow p-6 lg:p-8">
+      <h2 class="text-3xl font-bold text-green-700">Registrar Dashboard</h2>
+      <p class="text-gray-500">School Year 2024–2025</p>
     </header>
 
-    <main class="p-6 lg:p-8 space-y-8">
+    <!-- Main Content -->
+    <main class="p-6 space-y-6">
 
-      <!-- Stats Grid -->
+      <!-- Stats Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center space-x-4 hover:shadow-xl transition">
-          <div class="p-3 rounded-full bg-green-100/30">
-            <i data-feather="users" class="text-green-700 w-6 h-6"></i>
+
+        <div class="bg-white rounded-2xl shadow p-6 flex items-center gap-4 hover:shadow-lg transition">
+          <div class="p-3 rounded-full bg-green-700/10">
+            <i data-feather="users" class="w-6 h-6 text-green-700"></i>
           </div>
           <div>
-            <p class="text-gray-500 text-sm">Total Enrolled Students</p>
+            <p class="text-sm text-gray-500">Total Students</p>
             <p class="text-2xl font-bold text-green-700">1,243</p>
-            <p class="text-green-700 text-sm">+12% from last year</p>
+            <p class="text-sm text-gray-500">Enrolled this year</p>
           </div>
         </div>
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center space-x-4 hover:shadow-xl transition">
-          <div class="p-3 rounded-full bg-green-100/30">
-            <i data-feather="user-check" class="text-green-700 w-6 h-6"></i>
+
+        <div class="bg-white rounded-2xl shadow p-6 flex items-center gap-4 hover:shadow-lg transition">
+          <div class="p-3 rounded-full bg-green-700/10">
+            <i data-feather="user-check" class="w-6 h-6 text-green-700"></i>
           </div>
           <div>
-            <p class="text-gray-500 text-sm">Active Students</p>
-            <p class="text-2xl font-bold text-green-700">1,198</p>
-            <p class="text-green-700 text-sm">96.4% attendance rate</p>
+            <p class="text-sm text-gray-500">Approved Enrollments</p>
+            <p class="text-2xl font-bold text-green-700">1,056</p>
+            <p class="text-sm text-gray-500">Ready for sectioning</p>
           </div>
         </div>
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center space-x-4 hover:shadow-xl transition">
-          <div class="p-3 rounded-full bg-green-100/30">
-            <i data-feather="file" class="text-green-700 w-6 h-6"></i>
+
+        <div class="bg-white rounded-2xl shadow p-6 flex items-center gap-4 hover:shadow-lg transition">
+          <div class="p-3 rounded-full bg-green-700/10">
+            <i data-feather="clock" class="w-6 h-6 text-green-700"></i>
           </div>
           <div>
-            <p class="text-gray-500 text-sm">Pending Requirements</p>
+            <p class="text-sm text-gray-500">Pending Requests</p>
+            <p class="text-2xl font-bold text-green-700">187</p>
+            <p class="text-sm text-gray-500">For review</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow p-6 flex items-center gap-4 hover:shadow-lg transition">
+          <div class="p-3 rounded-full bg-green-700/10">
+            <i data-feather="file-text" class="w-6 h-6 text-green-700"></i>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Incomplete Documents</p>
             <p class="text-2xl font-bold text-green-700">156</p>
-            <p class="text-green-700 text-sm">32 urgent</p>
+            <p class="text-sm text-gray-500">Needs follow up</p>
           </div>
         </div>
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center space-x-4 hover:shadow-xl transition">
-          <div class="p-3 rounded-full bg-green-100/30">
-            <i data-feather="book-open" class="text-green-700 w-6 h-6"></i>
-          </div>
-          <div>
-            <p class="text-gray-500 text-sm">Subjects Offered</p>
-            <p class="text-2xl font-bold text-green-700">48</p>
-            <p class="text-gray-500 text-sm">Across 6 grade levels</p>
-          </div>
-        </div>
+
       </div>
 
-      <!-- Charts & Activity -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
-          <h3 class="text-lg font-semibold text-green-700 mb-4">Grade Level Chart</h3>
-          <div class="h-64 bg-gray-50 rounded flex items-center justify-center text-gray-400">
-            Chart Placeholder
-          </div>
-        </div>
-        <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
-          <h3 class="text-lg font-semibold text-green-700 mb-4">Recent Transactions</h3>
-          <div class="h-64 bg-gray-50 rounded flex items-center justify-center text-gray-400">
-            Activity Placeholder
-          </div>
-        </div>
-      </div>
+      <!-- Grid -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-      <!-- Requirements Status -->
-      <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
-        <h3 class="text-lg font-semibold text-green-700 mb-4">Requirements Status</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="p-4 rounded-lg text-center border border-green-200">
-            <p class="text-green-700 font-semibold">Completed</p>
-            <p class="text-green-700 text-lg font-bold">1,087</p>
+        <!-- Recent Enrollment Requests -->
+        <div class="xl:col-span-2 bg-white rounded-xl shadow border overflow-hidden">
+          <div class="p-4 border-b bg-gray-50">
+            <h3 class="font-semibold text-green-700">Recent Enrollment Requests</h3>
+            <p class="text-sm text-gray-500">Latest student applications</p>
           </div>
-          <div class="p-4 rounded-lg text-center border border-green-200">
-            <p class="text-green-700 font-semibold">Pending</p>
-            <p class="text-green-700 text-lg font-bold">156</p>
+
+          <table class="min-w-full divide-y">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-6 py-3 text-left text-sm font-semibold">Student</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold">Grade</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold">Submitted</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 font-medium">Maria Santos</td>
+                <td class="px-6 py-4">Grade 7</td>
+                <td class="px-6 py-4 text-sm text-gray-500">Jan 10, 2025</td>
+                <td class="px-6 py-4">
+                  <span class="px-2 py-1 text-xs rounded bg-green-700/10 text-green-700">Pending</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 font-medium">Juan Dela Cruz</td>
+                <td class="px-6 py-4">Grade 10</td>
+                <td class="px-6 py-4 text-sm text-gray-500">Jan 12, 2025</td>
+                <td class="px-6 py-4">
+                  <span class="px-2 py-1 text-xs rounded bg-green-700/10 text-green-700">Approved</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-xl shadow border">
+          <div class="p-4 border-b">
+            <h3 class="font-semibold text-green-700">Quick Actions</h3>
           </div>
-          <div class="p-4 rounded-lg text-center border border-green-200">
-            <p class="text-green-700 font-semibold">Urgent</p>
-            <p class="text-green-700 text-lg font-bold">32</p>
+
+          <div class="p-4 space-y-3">
+            <a href="#" class="flex items-center gap-3 p-3 border rounded-lg hover:bg-green-700/10">
+              <i data-feather="user-plus" class="w-5 h-5 text-green-700"></i>
+              <span class="text-sm font-medium">New Enrollment</span>
+            </a>
+
+            <a href="#" class="flex items-center gap-3 p-3 border rounded-lg hover:bg-green-700/10">
+              <i data-feather="file-text" class="w-5 h-5 text-green-700"></i>
+              <span class="text-sm font-medium">Review Documents</span>
+            </a>
+
+            <a href="#" class="flex items-center gap-3 p-3 border rounded-lg hover:bg-green-700/10">
+              <i data-feather="layers" class="w-5 h-5 text-green-700"></i>
+              <span class="text-sm font-medium">Manage Sections</span>
+            </a>
+
+            <a href="#" class="flex items-center gap-3 p-3 border rounded-lg hover:bg-green-700/10">
+              <i data-feather="bar-chart-2" class="w-5 h-5 text-green-700"></i>
+              <span class="text-sm font-medium">View Reports</span>
+            </a>
           </div>
         </div>
+
       </div>
 
     </main>
@@ -115,6 +153,6 @@
   <script>
     feather.replace()
   </script>
-</body>
 
+</body>
 </html>
